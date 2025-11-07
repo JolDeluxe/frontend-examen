@@ -4,7 +4,7 @@ import { getProductById, addSale } from '../services/api.js';
 
 export default function ItemDetail() {
   const [product, setProduct] = useState(null);
-  const { id } = useParams(); // Obtiene el :id de la URL
+  const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,10 +18,16 @@ export default function ItemDetail() {
   const handleBuy = () => {
     if (!product) return;
 
-    addSale(product.id)
+    const saleData = {
+      productId: product.id,
+      title: product.title,
+      price: product.price,
+      thumbnail: product.thumbnail,
+    };
+
+    addSale(saleData)
       .then((response) => {
-        if (response.success) {
-          // Si la compra es exitosa, navega a la lista de compras
+        if (response === true) {
           navigate('/sales');
         } else {
           alert('Hubo un error al procesar la compra.');
@@ -30,7 +36,6 @@ export default function ItemDetail() {
       .catch((err) => alert(err.message));
   };
 
-  // Helper para formatear precio
   const formatPrice = (price) =>
     new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -44,6 +49,9 @@ export default function ItemDetail() {
       </div>
     );
   }
+
+  // Prepara la imagen principal
+  const img1 = product.images[0]?.url || product.thumbnail;
 
   return (
     <div className="flex h-full flex-col">
@@ -83,21 +91,12 @@ export default function ItemDetail() {
 
       {/* Contenido del Producto */}
       <main className="flex-1 overflow-y-auto bg-white p-6">
-        <div className="mb-6 flex items-center justify-center space-x-4">
+        {/* ❗ IMAGEN GRANDE (CORREGIDO) */}
+        <div className="mb-6">
           <img
-            src={product.images[0] || product.thumbnail}
+            src={img1}
             alt={product.title}
-            className="h-24 w-24 rounded-full border-2 border-gray-300 object-cover"
-          />
-          <img
-            src={product.images[1] || product.thumbnail}
-            alt=""
-            className="h-24 w-24 rounded-full border-2 border-gray-300 object-cover opacity-60"
-          />
-          <img
-            src={product.images[2] || product.thumbnail}
-            alt=""
-            className="h-24 w-24 rounded-full border-2 border-gray-300 object-cover opacity-60"
+            className="h-64 w-full rounded-lg border border-gray-200 object-cover shadow-sm"
           />
         </div>
 

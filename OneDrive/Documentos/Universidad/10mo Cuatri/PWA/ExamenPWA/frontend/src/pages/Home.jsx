@@ -13,7 +13,6 @@ export default function Home() {
 
   return (
     <div className="flex h-full flex-col items-center justify-center space-y-8 bg-white p-6">
-      {/* Logo (Ícono de Bolsa) */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -29,10 +28,8 @@ export default function Home() {
         />
       </svg>
 
-      {/* Título */}
       <h1 className="text-4xl font-bold text-gray-900">Bazar Online</h1>
 
-      {/* Caja de búsqueda */}
       <div className="flex w-full max-w-md">
         <input
           type="text"

@@ -1,5 +1,5 @@
 // DEBES CAMBIAR ESTO por la URL de tu backend
-const API_URL = 'http://localhost:3000/api'; // Ejemplo
+const API_URL = 'http://localhost:3001/api'; // <-- ❗ CORRECCIÓN 1: Puerto 3001
 
 /**
  * Endpoint 1: /api/items?q=:query
@@ -21,20 +21,19 @@ export const getProductById = async (id) => {
 
 /**
  * Endpoint 3: /api/addSale
+ * ❗ CORRECCIÓN 2: Aceptamos 'saleData' completo, no solo 'productId'
  */
-export const addSale = async (productId) => {
+export const addSale = async (saleData) => {
   const response = await fetch(`${API_URL}/addSale`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ productId }),
+    body: JSON.stringify(saleData), // Enviamos el objeto de datos completo
   });
   if (!response.ok) throw new Error('Error al registrar la compra');
   return response.json();
 };
 
-/**
- * Endpoint 4: /api/sales
- */
+
 export const getSales = async () => {
   const response = await fetch(`${API_URL}/sales`);
   if (!response.ok) throw new Error('Error al obtener las ventas');

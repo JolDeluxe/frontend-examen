@@ -10,16 +10,14 @@ export default function SalesList() {
     getSales()
       .then((data) => setSales(data))
       .catch((err) => console.error(err));
-  }, []); // Cargar solo una vez
+  }, []);
 
-  // Helper para formatear precio
   const formatPrice = (price) =>
     new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
     }).format(price);
 
-  // Helper para formatear fecha
   const formatDate = (dateString) =>
     new Intl.DateTimeFormat('es-ES', {
       dateStyle: 'short',
@@ -29,7 +27,7 @@ export default function SalesList() {
   return (
     <div className="flex h-full flex-col bg-white p-6">
       <h1 className="my-6 text-center text-3xl font-bold text-gray-900">
-        Registered Purchases
+        Compras Registradas
       </h1>
 
       {/* Lista de Compras */}
@@ -42,14 +40,17 @@ export default function SalesList() {
             >
               <div>
                 <p className="font-semibold text-gray-800">
-                  {sale.productTitle}
+                  {/* ❗ CORRECCIÓN 6: Usar 'title' */}
+                  {sale.title}
                 </p>
                 <p className="text-sm text-gray-500">
-                  Comprado el: {formatDate(sale.purchaseDate)}
+                  {/* ❗ CORRECCIÓN 7: Usar 'saleDate' */}
+                  Comprado el: {formatDate(sale.saleDate)}
                 </p>
               </div>
               <span className="font-bold text-gray-900">
-                {formatPrice(sale.pricePaid)}
+                {/* El backend lo guarda como 'price', no 'pricePaid' */}
+                {formatPrice(sale.price)}
               </span>
             </div>
           ))

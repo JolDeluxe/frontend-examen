@@ -9,29 +9,25 @@ export default function ItemList() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  // El query de la URL
   const searchQuery = searchParams.get('search') || '';
-
-  // Para el input del header
   const [headerQuery, setHeaderQuery] = useState(searchQuery);
 
   useEffect(() => {
-    // Cargar productos cuando el 'searchQuery' (de la URL) cambie
     if (searchQuery) {
       searchProducts(searchQuery)
         .then((response) => {
-          setProducts(response.products);
-          setResultCount(response.total);
+          // ❗ CORRECCIÓN 3: Ajustar a la respuesta del backend
+          setProducts(response.items); // No 'response.products'
+          setResultCount(response.count); // No 'response.total'
         })
         .catch((err) => console.error(err));
     }
-  }, [searchQuery]); // Depende del query de la URL
+  }, [searchQuery]);
 
   const handleSearch = () => {
     navigate(`/items?search=${headerQuery}`);
   };
 
-  // Helper para formatear precio
   const formatPrice = (price) =>
     new Intl.NumberFormat('en-US', {
       style: 'currency',
